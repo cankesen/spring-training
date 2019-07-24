@@ -1,7 +1,9 @@
 package com.prodyna.training.examples.di;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 
+@Component
 public class Dao {
 
   private String name;

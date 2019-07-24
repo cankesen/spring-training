@@ -16,12 +16,11 @@ import org.springframework.test.context.support.AnnotationConfigContextLoader;
 public class DependencyInjectionTest {
 
   @Autowired
-  ApplicationContext applicationContext;
+  Service service;
 
   @Test
   public void givenBean_inContext() {
 
-    Service service = applicationContext.getBean(Service.class);
 
     Assert.assertNotNull(service);
     Assert.assertEquals(service.getDao().getName(), "I Am a Repo");
