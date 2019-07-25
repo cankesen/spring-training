@@ -1,7 +1,19 @@
 package com.prodyna.training.examples.jackson;
 
+import static junit.framework.TestCase.fail;
+import static org.hamcrest.MatcherAssert.assertThat;
+import static org.hamcrest.core.Is.is;
+import static org.hamcrest.core.IsNull.notNullValue;
+import static org.hamcrest.core.IsNull.nullValue;
+
+import com.fasterxml.jackson.core.type.TypeReference;
+import com.fasterxml.jackson.databind.JsonNode;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.databind.SerializationFeature;
+import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.List;
 import lombok.extern.slf4j.Slf4j;
 import org.everit.json.schema.Schema;
 import org.everit.json.schema.ValidationException;
@@ -19,13 +31,13 @@ public class JacksonTest {
    * Test 1
    */
   @Test
-  public void createPersonAndMarshalToFileTest() {
+  public void createPersonAndMarshalToFileTest() throws Exception {
 
-    try {
-
-    } catch (Exception e) {
-
-    }
+    ObjectMapper objectMapper = new ObjectMapper();
+    objectMapper.enable(SerializationFeature.INDENT_OUTPUT);
+    Person person = new Person("Mr", "Leonardo di Caprio",
+        Gender.MALE, 45, "1988-02-01");
+    objectMapper.writeValue(new File("target/person.json"), person);
 
   }
 
@@ -33,41 +45,48 @@ public class JacksonTest {
    * Test 2
    */
   @Test
-  public void unMarshalToPersonFromStringTest() {
-    try {
+  public void unMarshalToPersonFromStringTest() throws Exception {
+    String personJson = "{\"title\":\"Mr\",\"fullName\":\"Leonardo di Caprio\",\"gender\":\"MALE\",\"age\":45,\"birthday\":\"1988-02-01\"}";
 
-    } catch (Exception e) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    Person person = objectMapper.readValue(personJson, Person.class);
+    assertThat(person, is(notNullValue()));
+    assertThat(person.getTitle(), is("Mr"));
 
-    }
   }
-
 
   /**
    * Test 3
    */
   @Test
-  public void readFileAsJsonNodeTest() {
-    try {
+  public void readFileAsJsonNodeTest() throws Exception {
 
-    } catch (Exception e) {
+    ObjectMapper objectMapper = new ObjectMapper();
+    JsonNode personNode = objectMapper.readTree
+        (loadFileToInputStream("jackson/person.json"));
+    assertThat(personNode, is(notNullValue()));
+    assertThat(personNode.get("title"), is(nullValue()));
+    assertThat(personNode.get("fullName").textValue(), is("Leonardo di Caprio"));
 
-    }
   }
 
   /**
    * Test 4
    */
   @Test
-  public void readStringAsPersonListTest() {
+  public void readStringAsPersonListTest() throws Exception {
 
     String jsonArray =
         "[{ \"title\" : \"mr\", \"fullName\" : \"Neo\" }, { \"title\" : \"mrs\", \"fullName\" : \"Alice\" }]";
 
-    try {
+    ObjectMapper objectMapper = new ObjectMapper();
+    List<Person> listPerson = objectMapper
+        .readValue(jsonArray, new TypeReference<List<Person>>() {
+        });
 
-    } catch (Exception e) {
+    assertThat(listPerson.size(), is(2));
+    assertThat(listPerson.get(0).getFullName(), is("Neo"));
 
-    }
   }
 
   private InputStream loadFileToInputStream(String path) throws IOException {
@@ -88,11 +107,13 @@ public class JacksonTest {
 
 
     } catch (ValidationException e) {
+
       e.getCausingExceptions().stream()
           .forEach(ex -> log.info(ex.toString()));
+      fail();
+
     }
   }
-
 
 
 }
