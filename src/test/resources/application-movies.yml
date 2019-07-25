@@ -1,0 +1,9 @@
+movies-configuration:
+  movies:
+    -
+      title: Green Mile
+      genre: DRAMA
+    -
+      title: Avatar
+      genre: SCI-FI
+
