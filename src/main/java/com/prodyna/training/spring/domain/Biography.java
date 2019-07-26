@@ -5,6 +5,8 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.Id;
+import javax.persistence.MapsId;
+import javax.persistence.OneToOne;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -19,13 +21,14 @@ import lombok.Setter;
 @Entity
 public class Biography implements Serializable {
 
-    @Id
-    private Long id;
+  @Id
+  private Long id;
 
-    private String text;
+  private String text;
 
-    @JsonBackReference
-    //Implement
-    private Person person;
+  @JsonBackReference
+  @OneToOne
+  @MapsId
+  private Person person;
 
 }

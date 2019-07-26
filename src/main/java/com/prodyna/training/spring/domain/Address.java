@@ -13,8 +13,8 @@ import lombok.Setter;
 
 @Embeddable
 @AttributeOverrides({
-        @AttributeOverride(name="street", column = @Column(name="address_street")),
-        @AttributeOverride(name="postalCode", column = @Column(name="address_postal_code"))
+    @AttributeOverride(name = "street", column = @Column(name = "address_street")),
+    @AttributeOverride(name = "postalCode", column = @Column(name = "address_postal_code"))
 })
 @Getter
 @Setter
@@ -23,9 +23,9 @@ import lombok.Setter;
 @AllArgsConstructor
 public class Address implements Serializable {
 
-    //Implement
-    private String street;
+  @Column(name = "address_street")
+  private String street;
 
-    private int postalCode;
+  private int postalCode;
 
 }
