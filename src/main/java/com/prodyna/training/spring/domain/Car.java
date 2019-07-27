@@ -4,8 +4,10 @@ import com.fasterxml.jackson.annotation.JsonBackReference;
 import java.io.Serializable;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
+import javax.persistence.GenerationType;
 import javax.persistence.Id;
 import javax.persistence.OneToOne;
+import javax.persistence.SequenceGenerator;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Getter;
@@ -24,7 +26,8 @@ import org.hibernate.annotations.NaturalId;
 public class Car implements Serializable {
 
   @Id
-  @GeneratedValue
+  @SequenceGenerator(name = "CAR_ID_GENERATOR", initialValue = 20, allocationSize = 10, sequenceName = "PERSON_SEQ")
+  @GeneratedValue(strategy = GenerationType.SEQUENCE, generator = "CAR_ID_GENERATOR")
   private Long id;
 
   @NaturalId
