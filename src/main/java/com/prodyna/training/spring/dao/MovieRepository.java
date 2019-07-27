@@ -16,6 +16,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
   /**
    * Task 1
+   * http://localhost:8080/api/movies/search/queryByGenre?genre=DRAMA
    * @param genre
    * @return
    */
@@ -23,6 +24,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
   /**
    * Task 2
+   * http://localhost:8080/api/movies/search/countAllByPrizes_Movie_Title?name=Matrix
    * @param name
    * @return
    */
@@ -31,6 +33,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
 
   /**
    * Task 3
+   * http://localhost:8080/api/movies/search/findAllByDirector_AddressPostalCodeIn?postCodes=56767,11111,55767
    * @param postCodes
    * @return
    */
@@ -41,6 +44,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
   /**
    * Task 1 JPQL Query
    *
+   * http://localhost:8080/api/movies/search/getMoviesWithMostPrize?prizeText=%Oscar%
    * @param prizeText
    * @return
    */
@@ -48,6 +52,7 @@ public interface MovieRepository extends JpaRepository<Movie, Long> {
       + " where p.name like :prizeText group by (m.id) "
       + " having count(m) > 0 order by count(m) desc ")
   List<Movie> getMoviesWithMostPrize(@Param("prizeText") String prizeText);
+
 
 
 

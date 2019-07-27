@@ -12,6 +12,9 @@ spring:
     properties:
       hibernate:
         type: trace
+  data:
+    rest:
+      basePath: /api
 management:
   endpoint:
     health:
