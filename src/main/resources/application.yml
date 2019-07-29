@@ -15,6 +15,15 @@ spring:
   data:
     rest:
       basePath: /api
+logging:
+  level:
+    #root: INFO overrides logback
+    org:
+      hibernate:
+        sql: debug
+        type:
+          descriptor:
+            sql: trace
 management:
   endpoint:
     health:

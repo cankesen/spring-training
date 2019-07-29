@@ -1,6 +1,8 @@
 package com.prodyna.training.spring.domain;
 
 import com.fasterxml.jackson.annotation.JsonIgnoreProperties;
+import com.fasterxml.jackson.annotation.JsonInclude;
+import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import java.io.Serializable;
 import java.util.Set;
 import javax.persistence.CascadeType;
@@ -32,6 +34,7 @@ import lombok.Setter;
 @NoArgsConstructor
 @Entity
 @Table(name = "movie")
+@JsonInclude(Include.NON_NULL)
 public class Movie implements Serializable {
 
   @Id

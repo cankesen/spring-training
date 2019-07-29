@@ -1,0 +1,22 @@
+{
+  "title": "Test",
+  "genre": "ACTION",
+  "acts": [
+    {
+      "actor": {
+        "id": 1
+      },
+      "role": "TestRole"
+    }
+  ],
+  "director":
+  {
+    "nane":"TestDirector"
+  },
+  "prizes": [
+    {
+      "name": "TestPrize",
+      "date": "1999-01-01T00:00:00.000+0000"
+    }
+  ]
+}
