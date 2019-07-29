@@ -7,7 +7,6 @@ import static org.hamcrest.Matchers.equalTo;
 import static org.hamcrest.Matchers.greaterThan;
 import static org.hamcrest.Matchers.is;
 
-import com.fasterxml.jackson.annotation.JsonInclude.Include;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.google.common.collect.Sets;
 import com.prodyna.training.spring.domain.Act;
@@ -37,27 +36,50 @@ public class MovieResourceRestTemplateIT {
   @Test
   public void testGetMoviesAsStringResponse() throws IOException {
 
-    //implement
+    String body = this.restTemplate.getForObject("//api/v1/movies", String.class);
+
+    Movie[] movies = new ObjectMapper().readValue(body, Movie[].class);
+
+    assertThat(movies.length, is(greaterThan(0)));
 
   }
 
   @Test
   public void testGetMovieAsEntityResponse() {
 
-    //implement
+    ResponseEntity<Movie> movieResponse = this.restTemplate
+        .getForEntity("//api/v1/movies/1", Movie.class);
+
+    assertThat(movieResponse.getBody(), is(not(equalTo(null))));
+    assertThat(movieResponse.getBody().getTitle(), is("Matrix"));
 
   }
 
   @Test
   public void testCreateMovie() throws Exception {
 
-    //use the movie object as , wrapped in HttpEntity
     Actor actor = Actor.builder().name("TestActor").build();
     Director director = Director.builder().name("TestDirector").build();
     Movie movie = Movie.builder().director(director).title("TestMovie").genre(Genre.ACTION).build();
     Act act = Act.builder().actor(actor).movie(movie).role("TestRole").build();
     movie.setActs(Sets.newHashSet(act));
 
+    ResponseEntity<Movie> movieEntityLoaded = this.restTemplate
+        .postForEntity("//api/v1/movies", new HttpEntity<>(movie), Movie.class);
+
+    Movie movieLoaded = movieEntityLoaded.getBody();
+
+    assertThat(movieLoaded.getId(), is(notNullValue()));
+    assertThat(movieLoaded.getActs().size(), is(1));
+
+    Actor actorLoaded = movieLoaded.getActs().stream().findFirst().get().getActor();
+    assertThat(actorLoaded.getId(), is(notNullValue()));
+    assertThat(actorLoaded.getName(), is("TestActor"));
+
+    assertThat(movieLoaded.getDirector().getId(), is(notNullValue()));
+    assertThat(movieLoaded.getDirector().getName(), is("TestDirector"));
+
   }
+
 
 }

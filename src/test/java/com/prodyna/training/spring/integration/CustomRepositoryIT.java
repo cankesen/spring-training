@@ -42,7 +42,6 @@ public class CustomRepositoryIT {
 
   }
 
-  @Ignore
   @Test
   public void testCreateMovieWithNewActor(){
     Actor actor1 = Actor.builder().name("Actor 1")
@@ -62,7 +61,6 @@ public class CustomRepositoryIT {
 
   }
 
-  @Ignore
   @Test
   public void testCreateMovieWithExistingActor(){
 //    Actor actor1 = actorRepository.getOne(1L);

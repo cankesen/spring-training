@@ -14,30 +14,38 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springframework.web.bind.annotation.RestController;
 
+
 @Slf4j
 @RestController
+@RequestMapping("/api/v1")
 public class MovieResource {
 
-  //Autowire custom repo
+  private AppRepository appRepository;
 
-  //implement
+  public MovieResource(@Autowired AppRepository appRepository) {
+    this.appRepository = appRepository;
+  }
+
+  @GetMapping(value = "/movies", produces = {"application/json"})
   public List<Movie> getMovies() {
 
-    return null;
+    return appRepository.getMovies();
 
   }
 
-  //implement
-  public ResponseEntity<Movie> getMovie( Long id) {
+  @GetMapping(value = "/movies/{id}", produces = {"application/json"})
+  public ResponseEntity<Movie> getMovie(@PathVariable Long id) {
 
-    return null;
+    Movie movie = appRepository.findMovie(id);
+    return ResponseEntity.ok(movie);
 
   }
 
-  //implement
-  public ResponseEntity<Movie> createMovie( Movie movie){
+  @PostMapping(value = "/movies", consumes = {"application/json"}, produces = {"application/json"})
+  public ResponseEntity<Movie> createMovie(@RequestBody Movie movie){
 
-    return null;
+    Movie createdMovie = appRepository.createMovie(movie);
+    return ResponseEntity.ok(movie);
 
   }
 
