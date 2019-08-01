@@ -1,5 +1,6 @@
 package com.prodyna.training.spring.resource;
 
+import com.prodyna.training.spring.aspect.Profile;
 import com.prodyna.training.spring.dao.custom.AppRepository;
 import com.prodyna.training.spring.domain.Movie;
 import java.util.List;
@@ -26,6 +27,7 @@ public class MovieResource {
     this.appRepository = appRepository;
   }
 
+  @Profile
   @GetMapping(value = "/movies", produces = {"application/json"})
   public List<Movie> getMovies() {
 
