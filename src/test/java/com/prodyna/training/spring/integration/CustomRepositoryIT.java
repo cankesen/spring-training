@@ -61,23 +61,5 @@ public class CustomRepositoryIT {
 
   }
 
-  @Test
-  public void testCreateMovieWithExistingActor(){
-//    Actor actor1 = actorRepository.getOne(1L);
-    Actor actor1 =  Actor.builder().id(1L).build();
-
-    Director director = Director.builder().name("Director").build();
-    Movie myTestMovie = Movie.builder().director(director).title("MyTestMovie").genre(Genre.ACTION).build();
-    Act act = Act.builder().actor(actor1).movie(myTestMovie).role("testRole").build();
-    myTestMovie.setActs(Sets.newHashSet(act));
-
-    myTestMovie = appRepository.createMovie(myTestMovie);
-
-    assertThat(myTestMovie.getId(), is(notNullValue()));
-    assertThat(myTestMovie.getActs().size(), is(1));
-    assertThat(myTestMovie.getActs().stream().findFirst().get().getActor().getName(), is("Keanu Reeves"));
-
-  }
-
 
 }

@@ -45,7 +45,7 @@ public class MovieResource {
   public ResponseEntity<Movie> createMovie(@RequestBody Movie movie){
 
     Movie createdMovie = appRepository.createMovie(movie);
-    return ResponseEntity.ok(movie);
+    return ResponseEntity.ok(createdMovie);
 
   }
 

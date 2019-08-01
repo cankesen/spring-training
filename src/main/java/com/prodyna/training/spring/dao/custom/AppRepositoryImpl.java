@@ -14,6 +14,11 @@ public class AppRepositoryImpl implements AppRepositoryCustom {
   EntityManager entityManager;
 
 
+  /**
+   * Generic find of Entity Manager
+   * @param id
+   * @return
+   */
   @Override
   public Movie findMovie(Long id) {
 
@@ -21,6 +26,10 @@ public class AppRepositoryImpl implements AppRepositoryCustom {
 
   }
 
+  /**
+   * Create a query
+   * @return
+   */
   @Override
   public List<Movie> getMovies() {
 
@@ -30,25 +39,14 @@ public class AppRepositoryImpl implements AppRepositoryCustom {
 
   }
 
+  /**
+   * Here we should actually use a DTO, but for the ease of implementation in training hands-on
+   * we use the entity itself
+   * @param movie
+   * @return
+   */
   @Override
   public Movie createMovie(Movie movie) {
-
-    // when testing we may use existing actors and we post the whole movie object
-    // with all sub-elements. So we check for the actor if it already exists, if yes
-    // get the existing actor from peristence context
-
-    // so any time you pass a persisted entity to persist method, you will get detached entity
-    //passed to persist exception. To Avoid it you should use the attached and perirsted entity by
-    // getting it from persistence context
-
-    // this code demonstrates the case only for actor! if you pass a director which is already persisted
-    // the exception will be thrown
-    movie.getActs().stream().forEach(act -> {
-      if(act.getActor().getId() != null){
-        act.setActor(entityManager.find(Actor.class, act.getActor().getId()));
-      }
-    });
-
 
     movie.getActs().stream().map(act-> act.getActor()).forEach(entityManager::persist);
     entityManager.persist(movie);
@@ -56,4 +54,5 @@ public class AppRepositoryImpl implements AppRepositoryCustom {
     return movie;
 
   }
+
 }

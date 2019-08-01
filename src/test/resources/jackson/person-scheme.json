@@ -23,5 +23,5 @@
       "minimum": 0
     }
   },
-  "required": ["fullName", "gender"]
+  "required": ["fullName", "gender", "age", "title"]
 }
